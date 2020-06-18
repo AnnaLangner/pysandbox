@@ -6,4 +6,4 @@ parser.add_argument('fruit', nargs='*')
 args = parser.parse_args()
 sortList = sorted(args.fruit)
 for i in sortList:
-  print(i)
+  print(i, end=' ')
