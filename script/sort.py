@@ -4,5 +4,5 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('fruit', nargs='*')
 args = parser.parse_args()
-sortList = sorted(args.fruit)
-print(*sortList, sep=', ')
+sort_list = sorted(args.fruit)
+print(*sort_list, sep=', ')
