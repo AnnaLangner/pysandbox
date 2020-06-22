@@ -10,4 +10,7 @@ file = open(path)
 words = file.read().split()
 frequenty_words = Counter(words).most_common(3)
 for word in frequenty_words:
-  print(word)
+  #tuples
+  #print(word[0], ":", word[1])
+  #string interpolation:
+  print(f'{word[0]} : {word[1]}')
