@@ -1,18 +1,33 @@
 #Script which will take as an input url to the page and text.
 import argparse
 import requests
+import re
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--url', help='add url')
-parser.add_argument('--text', help='add text')
-args = parser.parse_args()
+def arguments():
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--url', help='add url')
+  parser.add_argument('--text', help='add text')
+  args = parser.parse_args()
+  return args
+args = arguments()
 url = args.url
 text = args.text
-url = input('Enter the URL:')
-text = input('Enter the search phrase: ')
+new_text = []
 r = requests.get(url)
-if text in r.text:
-  print(text)  
+if args:
+  if text in r.text:
+    length_text = len(text)
+    start = r.text.index(text)
+    new_text.append(r.text[start:10+start])
+    new_text.append(r.text[start:start+(length_text+10)])    
+    print(''.join(new_text))
+  else:
+    print("Text '" + text + "' not found")
 else:
-  print("Text '" + text + "' not found")
+  url = input('Enter the URL:')
+  text = input('Enter the search phrase: ')
+  if text in r.text:
+    print(text)
+  else:
+    print("Text '" + text + "' not found")
