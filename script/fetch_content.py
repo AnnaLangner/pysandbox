@@ -11,15 +11,14 @@ def arguments():
   args = parser.parse_args()
   return args
 def add_characters():
-  length_text = len(text)
-  start = r.text.index(text)
-  new_text.append(r.text[start:10+start])
-  new_text.append(r.text[start:start+(length_text+10)])    
-  print(''.join(new_text))
+  for m in re.finditer(text, r.text):
+    start = m.start()
+    end = m.end()
+    new_text = r.text[start-10:end+10]
+    print(new_text)
 args = arguments()
 url = args.url
 text = args.text
-new_text = []
 r = requests.get(url)
 if args:
   if text in r.text:
