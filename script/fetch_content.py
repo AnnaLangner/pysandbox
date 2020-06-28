@@ -19,16 +19,12 @@ def add_characters():
 args = arguments()
 url = args.url
 text = args.text
-r = requests.get(url)
-if args:
-  if text in r.text:
-    add_characters()
-  else:
-    print("Text '" + text + "' not found")
-else:
+if not url:
   url = input('Enter the URL:')
+if not text:
   text = input('Enter the search phrase: ')
-  if text in r.text:
-    add_characters()
-  else:
-    print("Text '" + text + "' not found")
+r = requests.get(url)
+if text in r.text:
+  add_characters()
+else:
+  print("Text '" + text + "' not found")
