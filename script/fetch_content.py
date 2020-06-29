@@ -4,27 +4,30 @@ import requests
 import re
 
 
-def arguments():
+def fetch_arguments():
   parser = argparse.ArgumentParser()
   parser.add_argument('--url', help='add url')
   parser.add_argument('--text', help='add text')
-  args = parser.parse_args()
+  args = parser.parse_args() 
   return args
-def add_characters():
+
+
+def print_10_characters_before_and_after_text():
   for m in re.finditer(text, r.text):
     start = m.start()
     end = m.end()
     new_text = r.text[start-10:end+10]
-    print(new_text)
-args = arguments()
-url = args.url
-text = args.text
-if not url:
-  url = input('Enter the URL:')
-if not text:
-  text = input('Enter the search phrase: ')
-r = requests.get(url)
-if text in r.text:
-  add_characters()
-else:
-  print("Text '" + text + "' not found")
+    return new_text
+
+
+try:
+  args = fetch_arguments()
+  url = args.url
+  text = args.text
+  r = requests.get(url) 
+  if text in r.text:
+    print(print_10_characters_before_and_after_text())
+  else:
+    print("Text '" + text + "' not found")  
+except:
+  print("Error: This code works when enter the url and text.")  
