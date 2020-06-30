@@ -9,12 +9,12 @@ def fetch_arguments():
 
   parser = argparse.ArgumentParser()
   parser.add_argument('url', help='add url')
-  parser.add_argument('text', help='add text')
+  parser.add_argument('search_phrase', help='add text')
   args = parser.parse_args()  
-  return (args.url, args.text)
+  return (args.url, args.search_phrase)
 
 
-def print_10_characters_before_and_after_text(text, r):
+def print_10_characters_before_and_after_text(search_phrase, text):
   """
   Print text with  additional characters.
 
@@ -31,20 +31,20 @@ def print_10_characters_before_and_after_text(text, r):
   string: text with 10 additional characters before and after.
   
   """
-
-  for m in re.finditer(text, r.text):
-    start = m.start()
-    end = m.end()
-    new_text = r.text[start-10:end+10]
-    return new_text.split(text, 2)
+   
+  if search_phrase in r.text:
+    for m in re.finditer(search_phrase, r.text):
+      start = m.start()
+      end = m.end()
+      new_text = r.text[start-10:end+10]
+      return new_text
+  else:
+    print("Text '" + search_phrase + "' not found") 
 
 
 try:
-  (url, text) = fetch_arguments()
+  (url, search_phrase) = fetch_arguments()
   r = requests.get(url) 
-  if text in r.text:
-    print(print_10_characters_before_and_after_text(text, r))
-  else:
-    print("Text '" + text + "' not found")  
+  print(print_10_characters_before_and_after_text(search_phrase, r.text).split(search_phrase, 2))
 except:
   print("Error: This code works when enter the url and text.")  
