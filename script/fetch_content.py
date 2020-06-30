@@ -29,23 +29,28 @@ def print_10_characters_before_and_after_text(search_phrase, text):
   list_character: list containing elements consisting of 10 characters.
 
   Return:
-  list character.
+  list character: list containing elements consisting of 10 characters before and after the searched phrase
   
   """ 
   
 
   first_occurrence = r.text.find(search_phrase)
   if first_occurrence >= 0:
-    found_text = re.search(search_phrase, r.text)
-    start = found_text.start()
-    end = found_text.end()
+    start = first_occurrence
+    end = first_occurrence + len(search_phrase)
     new_text = r.text[start-10:end+10]
     list_character = new_text.split(search_phrase, 2)
+    list_character.insert(1, search_phrase)
     return list_character
   else:
-    print("Text '" + search_phrase + "' not found") 
+    return ""
 
 
 (url, search_phrase) = fetch_arguments()
 r = requests.get(url) 
-print(print_10_characters_before_and_after_text(search_phrase, r.text))
+result = print_10_characters_before_and_after_text(search_phrase, r.text)
+if not result:
+  print("Text '" + search_phrase + "' not found")
+else:
+  print(result)
+  
