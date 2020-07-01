@@ -18,19 +18,18 @@ def print_10_characters_before_and_after_text(search_phrase, text):
   """
   Print text with additional characters.
 
-  This function retrieves the text and returns it with an additional ten characters before and after the text.
+  This function retrieves the text and returns it with an additional ten characters before and after the text. If no text is found, it returns an empty string.
 
-  parameters:
+  Parameters:
   search_phrase: text that someone enters.
   r.text: all text on the website.
+  first_occurrence: first occurrence of the search phrase.
   start: index of the first letter of the entered text.
   end: index of the last letter of the entered text.
-  new_text: a string with additional characters added before start and after end.
-  list_character: list containing elements consisting of 10 characters.
+  new_text: a string with additional characters added before start and after end. 
 
   Return:
-  list character: list containing elements consisting of 10 characters before and after the searched phrase
-  
+  new_text
   """ 
   
 
@@ -39,9 +38,7 @@ def print_10_characters_before_and_after_text(search_phrase, text):
     start = first_occurrence
     end = first_occurrence + len(search_phrase)
     new_text = r.text[start-10:end+10]
-    list_character = new_text.split(search_phrase, 2)
-    list_character.insert(1, search_phrase)
-    return list_character
+    return new_text
   else:
     return ""
 
@@ -49,8 +46,7 @@ def print_10_characters_before_and_after_text(search_phrase, text):
 (url, search_phrase) = fetch_arguments()
 r = requests.get(url) 
 result = print_10_characters_before_and_after_text(search_phrase, r.text)
-if not result:
+if len(result) == 0:
   print("Text '" + search_phrase + "' not found")
 else:
   print(result)
-  
