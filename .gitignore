@@ -18,3 +18,9 @@ lerna-debug.log*
 
 #VScode
 .vscode
+
+#node_modules
+node_modules
+
+#bin
+bin
