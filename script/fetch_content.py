@@ -14,11 +14,11 @@ def fetch_arguments():
   return (args.url, args.search_phrase)
 
 
-def print_10_characters_before_and_after_text(search_phrase, text):
+def returned_fragment_sentence(search_phrase, text):
   """
-  Print text with additional characters.
+  Return text with additional characters.
 
-  This function retrieves the text and returns it with an additional ten characters before and after the text. If no text is found, it returns an empty string.
+  This function returns text with an additional ten characters before and after it. If no text is found, it returns an empty string.
 
   Parameters:
   search_phrase: text that someone enters.
@@ -43,10 +43,14 @@ def print_10_characters_before_and_after_text(search_phrase, text):
     return ""
 
 
-(url, search_phrase) = fetch_arguments()
-r = requests.get(url) 
-result = print_10_characters_before_and_after_text(search_phrase, r.text)
-if len(result) == 0:
-  print("Text '" + search_phrase + "' not found")
-else:
-  print(result)
+def main():
+  (url, search_phrase) = fetch_arguments()
+  r = requests.get(url) 
+  result = returned_fragment_sentence(search_phrase, r.text)
+  if len(result) == 0:
+    print("Text '" + search_phrase + "' not found")
+  else:
+    print(result)
+
+
+main()
