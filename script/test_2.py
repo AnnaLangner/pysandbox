@@ -1,4 +1,3 @@
-import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
   
@@ -14,13 +13,12 @@ def main():
     print("We are on a good site")
   searched_link = driver.find_element_by_link_text("halting problem")
   searched_link.click()
-  phrase_1 = "Turing machine"
-  phrase_2 = "no needed"
+  content_page = driver.find_element_by_id('content')
   src = driver.page_source
-  found_phrase_1 = re.search(phrase_1, src)  
+  driver.find_elements_by_xpath("//*[contains(text(), 'Turing machine')]")  
   assert "No result found." not in src
-  found_phrase_2 = re.search(phrase_2, src)
-  assert "No result found." in src
+  driver.find_elements_by_xpath("//*[contains(text(), 'no needed')]")  
+  assert "No result found." not in src
   driver.close()
 
 
