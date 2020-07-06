@@ -14,9 +14,9 @@ def main():
   searched_link.click()
   src = driver.page_source
   driver.find_elements_by_xpath("//*[contains(text(), 'Turing machine')]")  
-  assert "No result found." not in src
-  driver.find_elements_by_xpath("//*[contains(text(), 'no needed')]")  
-  assert "No result found." not in src
+  assert "Turing machine" in src
+  driver.find_elements_by_xpath("//*[contains(text(), 'no needed')]") 
+  assert "no needed" not in src
   driver.close()
 
 
