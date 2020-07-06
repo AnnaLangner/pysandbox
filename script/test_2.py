@@ -12,11 +12,10 @@ def main():
   assert "Unit testing" in driver.title
   searched_link = driver.find_element_by_link_text("halting problem")
   searched_link.click()
-  src = driver.page_source
   driver.find_elements_by_xpath("//*[contains(text(), 'Turing machine')]")  
-  assert "Turing machine" in src
+  assert "Turing machine"
   driver.find_elements_by_xpath("//*[contains(text(), 'no needed')]") 
-  assert "no needed" not in src
+  assert "no needed"
   driver.close()
 
 
