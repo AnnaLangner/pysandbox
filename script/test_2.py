@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
   
@@ -11,11 +12,14 @@ def main():
   search_input.submit()
   assert "Unit testing" in driver.title
   searched_link = driver.find_element_by_link_text("halting problem")
-  searched_link.click()
-  driver.find_elements_by_xpath("//*[contains(text(), 'Turing machine')]")  
-  assert "Turing machine"
-  driver.find_elements_by_xpath("//*[contains(text(), 'no needed')]") 
-  assert "no needed"
+  time.sleep(5)
+  searched_link.click()  
+  phrase_1 = driver.find_elements_by_xpath("//*[text()='Turing machine']")
+  print(phrase_1)
+  assert len(phrase_1) > 0
+  phrase_2 = driver.find_elements_by_xpath("//*[text()='no needed']") 
+  print(phrase_2)
+  assert len(phrase_2) <= 0
   driver.close()
 
 
