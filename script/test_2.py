@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
   
 
 def main():
@@ -11,11 +13,11 @@ def main():
   search_input.clear()
   search_input.send_keys("Unit testing")
   search_input.submit()
-  time.sleep(3)
+  WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
   assert "Unit testing" in driver.title
   searched_link = driver.find_element_by_link_text("halting problem")
   driver.execute_script("arguments[0].click();", searched_link)
-  time.sleep(3)
+  WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.XPATH, '//*[@id="bodyContent"]'), 'Turing machine'))
   phrase_1 = driver.find_elements_by_xpath("//*[text()='Turing machine']")
   assert len(phrase_1) > 0
   phrase_2 = driver.find_elements_by_xpath("//*[text()='no needed']") 
