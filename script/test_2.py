@@ -1,9 +1,5 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
   
 
 def main():
@@ -14,11 +10,8 @@ def main():
   search_input.send_keys("Unit testing")
   search_input.submit()
   assert "Unit testing" in driver.title
-  #time.sleep(5)
-  searched_link = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.LINK_TEXT, "halting problem")))
-  searched_link = driver.find_element_by_link_text("halting problem")  
-  searched_link.click()  
+  searched_link = driver.find_element_by_link_text("halting problem")
+  driver.execute_script("arguments[0].click();", searched_link)
   phrase_1 = driver.find_elements_by_xpath("//*[text()='Turing machine']")
   print(phrase_1)
   assert len(phrase_1) > 0
