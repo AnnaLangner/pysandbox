@@ -13,11 +13,9 @@ def main():
   searched_link = driver.find_element_by_link_text("halting problem")
   driver.execute_script("arguments[0].click();", searched_link)
   phrase_1 = driver.find_elements_by_xpath("//*[text()='Turing machine']")
-  print(phrase_1)
   assert len(phrase_1) > 0
   phrase_2 = driver.find_elements_by_xpath("//*[text()='no needed']") 
-  print(phrase_2)
-  assert len(phrase_2) <= 0
+  assert len(phrase_2) == 0
   driver.close()
 
 
