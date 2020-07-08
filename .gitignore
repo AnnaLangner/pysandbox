@@ -23,4 +23,5 @@ lerna-debug.log*
 node_modules
 
 #bin
-bin
+bin/
+venv/
