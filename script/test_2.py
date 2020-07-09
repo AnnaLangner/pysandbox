@@ -1,3 +1,5 @@
+import argparse
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -6,14 +8,25 @@ from selenium.webdriver.support import expected_conditions as EC
   
 
 def main():
-  driver = webdriver.Firefox(executable_path="bin/geckodriver.exe")
-  # driver = webdriver.Chrome(executable_path="bin/chromedriver")
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--driver', help='entry driver')
+  firefox = webdriver.Firefox(executable_path="bin/geckodriver.exe")
+  chrome = webdriver.Chrome(executable_path="bin/chromedriver")
+  args = parser.parse_args() 
+  driver_choice = args.driver  
+  if driver_choice == 'chrome':
+    driver = chrome
+  elif driver_choice == 'firefox':
+    driver = firefox
+  else:
+    driver = firefox
   driver.get("https://en.wikipedia.org/wiki/Main_Page")
   search_input = driver.find_element_by_id("searchInput")
   search_input.clear()
   search_input.send_keys("Unit testing")
   search_input.submit()
-  WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
+  time.sleep(3)
+  #WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
   assert "Unit testing" in driver.title
   searched_link = driver.find_element_by_link_text("halting problem")
   driver.execute_script("arguments[0].click();", searched_link)
