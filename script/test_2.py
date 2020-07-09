@@ -10,16 +10,12 @@ from selenium.webdriver.support import expected_conditions as EC
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--driver', help='entry driver')
-  firefox = webdriver.Firefox(executable_path="bin/geckodriver.exe")
-  chrome = webdriver.Chrome(executable_path="bin/chromedriver")
   args = parser.parse_args() 
   driver_choice = args.driver  
   if driver_choice == 'chrome':
-    driver = chrome
-  elif driver_choice == 'firefox':
-    driver = firefox
+    driver = webdriver.Chrome(executable_path="bin/chromedriver")
   else:
-    driver = firefox
+    driver = webdriver.Firefox(executable_path="bin/geckodriver.exe")
   driver.get("https://en.wikipedia.org/wiki/Main_Page")
   search_input = driver.find_element_by_id("searchInput")
   search_input.clear()
