@@ -1,5 +1,4 @@
 import argparse
-import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -21,8 +20,7 @@ def main():
   search_input.clear()
   search_input.send_keys("Unit testing")
   search_input.submit()
-  time.sleep(3)
-  #WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
+  WebDriverWait(driver, 10).until(EC.title_contains("Unit testing"))
   assert "Unit testing" in driver.title
   searched_link = driver.find_element_by_link_text("halting problem")
   driver.execute_script("arguments[0].click();", searched_link)
