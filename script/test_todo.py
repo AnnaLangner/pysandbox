@@ -18,13 +18,13 @@ def verify_active_task(driver, id):
   assert class_elem != "completed"
 
 
-def verify_comparison_of_adjacent_tasks(driver, id):
-  elem_1 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}]")
-  elem_2 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}+{1}]")
+def verify_tasks_different(driver, id1, id2):
+  elem_1 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id1}]")
+  elem_2 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id2}]")
   assert elem_1.text != elem_2.text  
 
 
-def click_on_input_task_completed(driver, id):  
+def click_task(driver, id):  
   elem_toggle = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}]/div/input")
   elem_toggle.click()
 
@@ -42,9 +42,9 @@ def main():
   add_task(driver, "task1")
   verify_active_task(driver, 1)
   add_task(driver, "task2")
-  verify_comparison_of_adjacent_tasks(driver, 1)  
+  verify_tasks_different(driver, 1, 2)  
   verify_active_task(driver, 2) 
-  click_on_input_task_completed(driver, 2)
+  click_task(driver, 2)
   verify_task_completed(driver, 2)
   driver.close()
 
