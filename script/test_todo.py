@@ -45,11 +45,22 @@ def test_task_completed(driver):
   verify_task_completed(driver, 2)
 
 
+def test_clear_completed_task(driver):
+  add_task(driver, "task3")
+  add_task(driver, "task4")
+  verify_active_task(driver, 3)
+  verify_active_task(driver, 4)
+  click_task(driver, 3)
+  click_button_clear_completed(driver)
+  verify_all_completed_task_are_deleted(driver)
+
+
 def main():
   driver = webdriver.Chrome(executable_path="bin/chromedriver")
   driver.get("http://todomvc.com/examples/react/#/")
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//html/body/section/div/header/input")))
   test_task_completed(driver)
+  test_clear_completed_task(driver)
   driver.close()
 
 
