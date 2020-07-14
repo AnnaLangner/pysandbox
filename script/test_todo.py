@@ -34,6 +34,19 @@ def verify_task_completed(driver, id):
   assert elem.get_attribute("class") == "completed"
 
 
+def click_button_clear_completed(driver):
+  completed_button = driver.find_element_by_xpath("/html/body/section/div/footer/button")
+  completed_button.click()
+
+
+def verify_all_completed_task_are_deleted(driver):
+  elem = driver.find_element_by_xpath("/html/body/section/div/section/ul/li")
+  class_elem = elem.get_attribute("class")
+  list_elem_completed = []
+  if(class_elem == "completed"):
+    list_elem_completed.extend(class_elem)
+  assert list_elem_completed == []
+
 
 def test_task_completed(driver):  
   add_task(driver, "task1")
