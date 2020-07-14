@@ -35,7 +35,7 @@ def verify_task_completed(driver, id):
 
 
 
-def main():
+def test_task_completed():
   driver = webdriver.Chrome(executable_path="bin/chromedriver")
   driver.get("http://todomvc.com/examples/react/#/")
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//html/body/section/div/header/input")))
@@ -47,6 +47,10 @@ def main():
   click_task(driver, 2)
   verify_task_completed(driver, 2)
   driver.close()
+
+
+def main():
+  test_task_completed()
 
 
 main()
