@@ -42,12 +42,8 @@ def click_button_clear_completed(driver):
 def verify_all_completed_task_are_deleted(driver):
   todo_list = driver.find_element_by_class_name("todo-list")
   elements = todo_list.find_elements_by_tag_name("li")
-  list_elem_completed = []
   for elem in elements:
-    class_elem = elem.get_attribute("class")
-    if(class_elem == "completed"):
-      list_elem_completed.append(elem)  
-  assert list_elem_completed == []
+    assert elem.get_attribute("class") != "completed"
 
 
 def test_task_completed(driver):  
