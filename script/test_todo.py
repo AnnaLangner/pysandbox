@@ -46,22 +46,29 @@ def verify_all_completed_task_are_deleted(driver):
     assert elem.get_attribute("class") != "completed"
 
 
+def click_tab_active(driver):
+  tab_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
+  tab_active.click()
+
+
+def click_tab_completed(driver):
+  tab_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
+  tab_completed.click()
+
+
 def verify_tab_all(driver):
-  card_all = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[1]/a")
-  card_all.click()
-  assert card_all.text == "All"
+  tab_all = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[1]/a")
+  assert tab_all.get_attribute("class") == "selected"
 
 
 def verify_tab_active(driver):
-  card_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
-  card_active.click()
-  assert card_active.text == "Active"
+  tab_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
+  assert tab_active.get_attribute("class") == "selected"
 
 
 def verify_tab_completed(driver):
-  card_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
-  card_completed.click()
-  assert card_completed.text == "Completed"
+  tab_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
+  assert tab_completed.get_attribute("class") == "selected"
 
 
 def test_task_completed(driver):  
@@ -89,9 +96,11 @@ def test_switch_tabs(driver):
   add_task(driver, "task6")
   verify_active_task(driver, 3)
   verify_active_task(driver, 4)
-  click_task(driver, 3)
+  click_task(driver, 3)  
   verify_tab_all(driver)
+  click_tab_active(driver)
   verify_tab_active(driver)
+  click_tab_completed(driver)  
   verify_tab_completed(driver)
 
 
