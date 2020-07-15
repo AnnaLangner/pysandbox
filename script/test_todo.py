@@ -40,11 +40,13 @@ def click_button_clear_completed(driver):
 
 
 def verify_all_completed_task_are_deleted(driver):
-  elem = driver.find_element_by_xpath("/html/body/section/div/section/ul/li")
-  class_elem = elem.get_attribute("class")
+  todo_list = driver.find_element_by_class_name("todo-list")
+  elements = todo_list.find_elements_by_tag_name("li")
   list_elem_completed = []
-  if(class_elem == "completed"):
-    list_elem_completed.extend(class_elem)
+  for elem in elements:
+    class_elem = elem.get_attribute("class")
+    if(class_elem == "completed"):
+      list_elem_completed.append(elem)  
   assert list_elem_completed == []
 
 
