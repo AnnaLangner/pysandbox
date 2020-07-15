@@ -34,6 +34,17 @@ def verify_task_completed(driver, id):
   assert elem.get_attribute("class") == "completed"
 
 
+def click_button_clear_completed(driver):
+  completed_button = driver.find_element_by_xpath("/html/body/section/div/footer/button")
+  completed_button.click()
+
+
+def verify_all_completed_task_are_deleted(driver):
+  todo_list = driver.find_element_by_class_name("todo-list")
+  elements = todo_list.find_elements_by_tag_name("li")
+  for elem in elements:
+    assert elem.get_attribute("class") != "completed"
+
 
 def test_task_completed(driver):  
   add_task(driver, "task1")
@@ -45,11 +56,22 @@ def test_task_completed(driver):
   verify_task_completed(driver, 2)
 
 
+def test_clear_completed_task(driver):
+  add_task(driver, "task3")
+  add_task(driver, "task4")
+  verify_active_task(driver, 3)
+  verify_active_task(driver, 4)
+  click_task(driver, 3)
+  click_button_clear_completed(driver)
+  verify_all_completed_task_are_deleted(driver)
+
+
 def main():
   driver = webdriver.Chrome(executable_path="bin/chromedriver")
   driver.get("http://todomvc.com/examples/react/#/")
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//html/body/section/div/header/input")))
   test_task_completed(driver)
+  test_clear_completed_task(driver)
   driver.close()
 
 
