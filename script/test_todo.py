@@ -46,6 +46,24 @@ def verify_all_completed_task_are_deleted(driver):
     assert elem.get_attribute("class") != "completed"
 
 
+def verify_tab_all(driver):
+  card_all = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[1]/a")
+  card_all.click()
+  assert card_all.text == "All"
+
+
+def verify_tab_active(driver):
+  card_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
+  card_active.click()
+  assert card_active.text == "Active"
+
+
+def verify_tab_completed(driver):
+  card_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
+  card_completed.click()
+  assert card_completed.text == "Completed"
+
+
 def test_task_completed(driver):  
   add_task(driver, "task1")
   verify_active_task(driver, 1)
@@ -66,12 +84,24 @@ def test_clear_completed_task(driver):
   verify_all_completed_task_are_deleted(driver)
 
 
+def test_switch_tabs(driver):
+  add_task(driver, "task5")
+  add_task(driver, "task6")
+  verify_active_task(driver, 3)
+  verify_active_task(driver, 4)
+  click_task(driver, 3)
+  verify_tab_all(driver)
+  verify_tab_active(driver)
+  verify_tab_completed(driver)
+
+
 def main():
   driver = webdriver.Chrome(executable_path="bin/chromedriver")
   driver.get("http://todomvc.com/examples/react/#/")
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//html/body/section/div/header/input")))
   test_task_completed(driver)
   test_clear_completed_task(driver)
+  test_switch_tabs(driver)
   driver.close()
 
 
