@@ -46,29 +46,14 @@ def verify_all_completed_task_are_deleted(driver):
     assert elem.get_attribute("class") != "completed"
 
 
-def click_tab_active(driver):
-  tab_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
-  tab_active.click()
+def click_tab(driver, id):
+  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+  tab.click()
 
 
-def click_tab_completed(driver):
-  tab_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
-  tab_completed.click()
-
-
-def verify_tab_all(driver):
-  tab_all = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[1]/a")
-  assert tab_all.get_attribute("class") == "selected"
-
-
-def verify_tab_active(driver):
-  tab_active = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[2]/a")
-  assert tab_active.get_attribute("class") == "selected"
-
-
-def verify_tab_completed(driver):
-  tab_completed = driver.find_element_by_xpath("/html/body/section/div/footer/ul/li[3]/a")
-  assert tab_completed.get_attribute("class") == "selected"
+def verify_tab(driver, id):
+  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+  assert tab.get_attribute("class") == "selected"
 
 
 def test_task_completed(driver):  
@@ -97,11 +82,11 @@ def test_switch_tabs(driver):
   verify_active_task(driver, 3)
   verify_active_task(driver, 4)
   click_task(driver, 3)  
-  verify_tab_all(driver)
-  click_tab_active(driver)
-  verify_tab_active(driver)
-  click_tab_completed(driver)  
-  verify_tab_completed(driver)
+  verify_tab(driver, 1)
+  click_tab(driver, 2)
+  verify_tab(driver, 2)
+  click_tab(driver, 3)  
+  verify_tab(driver, 3)
 
 
 def main():
