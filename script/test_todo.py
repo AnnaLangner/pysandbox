@@ -12,26 +12,27 @@ def add_task(driver, title):
   input_todo.send_keys(Keys.RETURN)
 
 
-def verify_active_task(driver, id):
-  elem = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}]")
+def verify_active_task(driver, label):
+  elem = driver.find_element_by_xpath(f"//label[contains(text(),'{label}')]")
   class_elem = elem.get_attribute("class")
   assert class_elem != "completed"
 
 
-def verify_tasks_different(driver, id1, id2):
-  elem_1 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id1}]")
-  elem_2 = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id2}]")
-  assert elem_1.text != elem_2.text  
+def verify_tasks_different(driver, label1, label2):
+  elem_1 = driver.find_element_by_xpath(f"//label[contains(text(),'{label1}')]")
+  elem_2 = driver.find_element_by_xpath(f"//label[contains(text(),'{label2}')]")
+  assert elem_1 != elem_2 
 
 
-def click_task(driver, id):  
-  elem_toggle = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}]/div/input")
+def click_task(driver, label): 
+  elem_toggle = driver.find_element_by_xpath(f"//label[contains(text(),'{label}')]/preceding-sibling::input")
   elem_toggle.click()
 
 
-def verify_task_completed(driver, id):
-  elem = driver.find_element_by_xpath(f"/html/body/section/div/section/ul/li[{id}]")
-  assert elem.get_attribute("class") == "completed"
+def verify_task_completed(driver, label):
+  child_elem = driver.find_element_by_xpath(f"//label[contains(text(),'{label}')]")
+  parent_elem = child_elem.find_element_by_xpath("..//..")
+  assert parent_elem.get_attribute("class") == "completed"
 
 
 def click_button_clear_completed(driver):
@@ -46,32 +47,32 @@ def verify_all_completed_task_are_deleted(driver):
     assert elem.get_attribute("class") != "completed"
 
 
-def click_tab(driver, id):
-  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+def click_tab(driver, label):
+  tab = driver.find_element_by_xpath(f"//a[contains(text(),'{label}')]")
   tab.click()
 
 
-def verify_tab(driver, id):
-  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+def verify_tab(driver, label):
+  tab = driver.find_element_by_xpath(f"//a[contains(text(),'{label}')]")
   assert tab.get_attribute("class") == "selected"
 
 
 def test_task_completed(driver):  
   add_task(driver, "task1")
-  verify_active_task(driver, 1)
+  verify_active_task(driver, "task1")
   add_task(driver, "task2")
-  verify_tasks_different(driver, 1, 2)  
-  verify_active_task(driver, 2) 
-  click_task(driver, 2)
-  verify_task_completed(driver, 2)
+  verify_tasks_different(driver, "task1", "task2")  
+  verify_active_task(driver, "task2") 
+  click_task(driver, "task2")
+  verify_task_completed(driver, "task2")
 
 
 def test_clear_completed_task(driver):
   add_task(driver, "task3")
   add_task(driver, "task4")
-  verify_active_task(driver, 3)
-  verify_active_task(driver, 4)
-  click_task(driver, 3)
+  verify_active_task(driver, "task3")
+  verify_active_task(driver, "task4")
+  click_task(driver, "task3")
   click_button_clear_completed(driver)
   verify_all_completed_task_are_deleted(driver)
 
@@ -79,14 +80,14 @@ def test_clear_completed_task(driver):
 def test_switch_tabs(driver):
   add_task(driver, "task5")
   add_task(driver, "task6")
-  verify_active_task(driver, 3)
-  verify_active_task(driver, 4)
-  click_task(driver, 3)  
-  verify_tab(driver, 1)
-  click_tab(driver, 2)
-  verify_tab(driver, 2)
-  click_tab(driver, 3)  
-  verify_tab(driver, 3)
+  verify_active_task(driver, "task5")
+  verify_active_task(driver, "task6")
+  click_task(driver, "task5")  
+  verify_tab(driver, "All")
+  click_tab(driver, "Active")
+  verify_tab(driver, "Active")
+  click_tab(driver, "Completed")  
+  verify_tab(driver, "Completed")
 
 
 def main():
