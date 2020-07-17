@@ -46,6 +46,16 @@ def verify_all_completed_task_are_deleted(driver):
     assert elem.get_attribute("class") != "completed"
 
 
+def click_tab(driver, id):
+  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+  tab.click()
+
+
+def verify_tab(driver, id):
+  tab = driver.find_element_by_xpath(f"/html/body/section/div/footer/ul/li[{id}]/a")
+  assert tab.get_attribute("class") == "selected"
+
+
 def test_task_completed(driver):  
   add_task(driver, "task1")
   verify_active_task(driver, 1)
@@ -66,12 +76,26 @@ def test_clear_completed_task(driver):
   verify_all_completed_task_are_deleted(driver)
 
 
+def test_switch_tabs(driver):
+  add_task(driver, "task5")
+  add_task(driver, "task6")
+  verify_active_task(driver, 3)
+  verify_active_task(driver, 4)
+  click_task(driver, 3)  
+  verify_tab(driver, 1)
+  click_tab(driver, 2)
+  verify_tab(driver, 2)
+  click_tab(driver, 3)  
+  verify_tab(driver, 3)
+
+
 def main():
   driver = webdriver.Chrome(executable_path="bin/chromedriver")
   driver.get("http://todomvc.com/examples/react/#/")
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//html/body/section/div/header/input")))
   test_task_completed(driver)
   test_clear_completed_task(driver)
+  test_switch_tabs(driver)
   driver.close()
 
 
